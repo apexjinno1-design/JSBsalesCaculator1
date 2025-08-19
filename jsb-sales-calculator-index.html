@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JSB Sales Calculator — Full</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Just Smart Business — Sales Calculator (Full)</h1>
+  <div class="grid">
+    <!-- DATA (left) -->
+    <section class="card">
+      <div class="section-title"><span class="dot"></span> Data</div>
+      <div class="inputs">
+        <label for="G5">Average Sale Value (ex GST)</label>
+        <input id="G5" type="number" step="0.01" min="0" value="550">
+
+        <label for="G6">Average Cost of Sale (ex GST)</label>
+        <input id="G6" type="number" step="0.01" min="0" value="150">
+
+        <label for="G9">Monthly Expenses (ex GST)</label>
+        <input id="G9" type="number" step="0.01" min="0" value="8211">
+
+        <label for="G10">Number of Weeks per Year</label>
+        <input id="G10" type="number" step="1" min="1" value="48">
+
+        <label for="G11">Number of Days per Week</label>
+        <input id="G11" type="number" step="1" min="1" value="5">
+
+        <label for="G12">How much do you want to make (Desired Net Profit)</label>
+        <input id="G12" type="number" step="0.01" min="0" value="100000">
+
+        <label for="G29">Enter Number of existing Clients</label>
+        <input id="G29" type="number" step="1" min="0" value="36">
+      </div>
+
+      <div class="kpi">
+        <div class="pill"><span class="label">Gross Profit per Sale</span><span class="value mono" id="G7_out">—</span></div>
+        <div class="pill"><span class="label">Gross Profit %</span><span class="value mono" id="G8_out">—</span></div>
+        <div class="pill"><span class="label">Check (100% - GP%)</span><span class="value mono" id="G20_out">—</span></div>
+      </div>
+
+      <div class="section-title" style="margin-top:14px;"><span class="dot"></span> Conversion Inputs</div>
+      <div class="inputs">
+        <label for="G26">Enter the number of times a client will buy from you each year</label>
+        <input id="G26" type="number" step="1" min="0" value="12">
+
+        <label for="G25">Enter conversion rate of enquiries → proposals</label>
+        <input id="G25" type="number" step="0.0001" min="0" max="1" value="0.7">
+
+        <label for="G24">Enter conversion rate of enquiries → proposals</label>
+        <input id="G24" type="number" step="0.0001" min="0" max="1" value="0.15">
+
+        <label for="G23">Enter conversion rate of leads → genuine enquiries</label>
+        <input id="G23" type="number" step="0.0001" min="0" max="1" value="0.15">
+
+        <label for="G22">Enter conversion rate of click-throughs/walk-ins → leads</label>
+        <input id="G22" type="number" step="0.0001" min="0" max="1" value="0.15">
+      </div>
+
+      <div class="actions">
+        <button id="calcBtn">Calculate</button>
+        <button class="ghost" id="resetBtn" type="button">Reset</button>
+      </div>
+      <p class="hint">Conversion inputs are decimals (e.g., 0.15 = 15%).</p>
+    </section>
+
+    <!-- RESULTS (right) -->
+    <section class="card" id="results">
+      <div class="section-title"><span class="dot"></span> Results</div>
+
+      <!-- Sales required (with Number + Revenue columns) -->
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th class="right">Number</th>
+            <th class="right">Revenue (ex GST)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Sales Required per Year</td>
+            <td class="right mono" id="J6">—</td>
+            <td class="right mono" id="K6">—</td>
+          </tr>
+          <tr>
+            <td>Sales Required per Month</td>
+            <td class="right mono" id="J7">—</td>
+            <td class="right mono" id="K7">—</td>
+          </tr>
+          <tr>
+            <td>Sales Required per Week</td>
+            <td class="right mono" id="J8">—</td>
+            <td class="right mono" id="K8">—</td>
+          </tr>
+          <tr>
+            <td>Sales Required per Day</td>
+            <td class="right mono" id="J9">—</td>
+            <td class="right mono" id="K9">—</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Expenses / Profit blocks -->
+      <div class="grid halves">
+        <div class="card inner">
+          <div class="muted">Expenses (per year)</div>
+          <div class="mono" id="J14">—</div>
+        </div>
+        <div class="card inner">
+          <div class="muted">Desired Net Profit</div>
+          <div class="mono" id="J15">—</div>
+        </div>
+      </div>
+      <div class="grid halves">
+        <div class="card inner">
+          <div class="muted">Gross Profit Required</div>
+          <div class="mono" id="J13">—</div>
+        </div>
+        <div class="card inner">
+          <div class="muted">Cost of Sales</div>
+          <div class="mono" id="J12">—</div>
+        </div>
+      </div>
+      <div class="card inner">
+        <div class="muted">Total Sales</div>
+        <div class="mono" id="J11">—</div>
+      </div>
+
+      <!-- Funnel requirements -->
+      <div class="section-title" style="margin-top:16px;"><span class="dot"></span> Funnel Requirements</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Stage</th>
+            <th class="right">Per Year</th>
+            <th class="right">Per Month</th>
+            <th class="right">Per Week</th>
+            <th class="right">Per Work Day</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Number of New Clients Required</td>
+            <td class="right mono" id="J26">—</td>
+            <td class="right mono" id="K26">—</td>
+            <td class="right mono" id="L26">—</td>
+            <td class="right mono" id="M26">—</td>
+          </tr>
+          <tr>
+            <td>Number of Proposals required</td>
+            <td class="right mono" id="J25">—</td>
+            <td class="right mono" id="K25">—</td>
+            <td class="right mono" id="L25">—</td>
+            <td class="right mono" id="M25">—</td>
+          </tr>
+          <tr>
+            <td>Number of Enquiries required</td>
+            <td class="right mono" id="J24">—</td>
+            <td class="right mono" id="K24">—</td>
+            <td class="right mono" id="L24">—</td>
+            <td class="right mono" id="M24">—</td>
+          </tr>
+          <tr>
+            <td>Number of Leads required</td>
+            <td class="right mono" id="J23">—</td>
+            <td class="right mono" id="K23">—</td>
+            <td class="right mono" id="L23">—</td>
+            <td class="right mono" id="M23">—</td>
+          </tr>
+          <tr>
+            <td>Number of Click throughs etc</td>
+            <td class="right mono" id="J22">—</td>
+            <td class="right mono" id="K22">—</td>
+            <td class="right mono" id="L22">—</td>
+            <td class="right mono" id="M22">—</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <footer>All formulas mirror the Excel sheet, including ROUNDUP and column references.</footer>
+    </section>
+  </div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
